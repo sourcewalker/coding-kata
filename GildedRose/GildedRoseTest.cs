@@ -1,7 +1,7 @@
 ﻿using Xunit;
 using System.Collections.Generic;
 
-namespace gildedrose
+namespace Gildedrose
 {
     public class GildedRoseTest
     {
@@ -12,7 +12,7 @@ namespace gildedrose
         public void Should_Return_First_Item_Name(string nameItem1, string nameItem2, string nameItem3)
         {
             IList<int> sellIns = new List<int> { 0, -2, 3, 4, 5, -7, -6 };
-            IList<int> qualities = new List<int> { 0, 0, 0, 5, -4, -1, 8 };
+            IList<int> qualities = new List<int> { 0, 0, 0, 5, 4, 21, 38 };
             IList<Item> items = new List<Item>();
             string currentName = nameItem1;
             for (var i = 0; i < qualities.Count; i++)
@@ -52,7 +52,7 @@ namespace gildedrose
         public void Should_Have_Sellin_Value_On_Each_Item(string nameItem1, string nameItem2, string nameItem3)
         {
             IList<int> sellIns = new List<int> { 0, -2, 3, 4, 5, -7, -6 };
-            IList<int> qualities = new List<int> { 0, 0, 0, 5, -4, -1, 8 };
+            IList<int> qualities = new List<int> { 0, 0, 0, 5, 4, 21, 38 };
             IList<Item> items = new List<Item>();
             string currentName = nameItem1;
             for (var i = 0; i < qualities.Count; i++)
@@ -89,7 +89,7 @@ namespace gildedrose
         public void Should_Have_Quality_Value_On_Each_Item(string nameItem1, string nameItem2, string nameItem3)
         {
             IList<int> sellIns = new List<int> { 0, -2, 3, 4, 5, -7, -6 };
-            IList<int> qualities = new List<int> { 0, 0, 0, 5, -4, -1, 8 };
+            IList<int> qualities = new List<int> { 0, 0, 0, 5, 4, 31, 48 };
             IList<Item> items = new List<Item>();
             string currentName = nameItem1;
             for (var i = 0; i < qualities.Count; i++)
@@ -123,10 +123,10 @@ namespace gildedrose
         [InlineData("foo", "bar", "fizz")]
         [InlineData("gilded", "rose", "kata")]
         [InlineData("Aged Brie", "Sulfuras", "Backstage passes")]
-        public void Should_Lower_SellIn_After_Update_Quality(string nameItem1, string nameItem2, string nameItem3)
+        public void Should_Lower_SellIn_After_Update_Quality_If_Not_Sulfuras(string nameItem1, string nameItem2, string nameItem3)
         {
             IList<int> sellIns = new List<int> { 0, -2, 3, 4, 5, -7, -6 };
-            IList<int> qualities = new List<int> { 0, 0, 0, 5, -4, -1, 8 };
+            IList<int> qualities = new List<int> { 0, 0, 0, 5, 34, 11, 28 };
             IList<Item> items = new List<Item>();
             string currentName = nameItem1;
             for (var i = 0; i < qualities.Count; i++)
@@ -152,7 +152,8 @@ namespace gildedrose
 
             for (var i = 0; i < items.Count; i++)
             {
-                Assert.Equal(items[i].SellIn, sellIns[i] - 1);
+                if (!items[i].Name.Contains("Sulfuras"))
+                    Assert.Equal(items[i].SellIn, sellIns[i] - 1);
             }
         }
 
@@ -298,8 +299,6 @@ namespace gildedrose
             {
                 if(items[i].Name.Contains("Aged Brie"))
                     Assert.True(items[i].Quality - qualities[i] > 0);
-                else
-                    Assert.True(items[i].Quality - qualities[i] <= 0);
             }
         }
 
@@ -384,8 +383,8 @@ namespace gildedrose
         [InlineData("Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Backstage passes")]
         public void Should_Have_Backstage_Increase_By_2_Between_10_And_5(string nameItem1, string nameItem2, string nameItem3)
         {
-            IList<int> sellIns = new List<int> { 0, -2, 3, 4, 5, -7, -6 };
-            IList<int> qualities = new List<int> { 0, 0, 0, 5, 4, 1, 8 };
+            IList<int> sellIns = new List<int> { 0, -2, 3, 40, 5, 8, -6 };
+            IList<int> qualities = new List<int> { 0, 0, 0, 5, 4, 10, 8 };
             IList<Item> items = new List<Item>();
             string currentName = nameItem1;
             for (var i = 0; i < qualities.Count; i++)
@@ -424,8 +423,8 @@ namespace gildedrose
         [InlineData("Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Backstage passes")]
         public void Should_Have_Backstage_Increase_By_3_Between_5_And_0(string nameItem1, string nameItem2, string nameItem3)
         {
-            IList<int> sellIns = new List<int> { 0, -2, 3, 4, 5, -7, -6 };
-            IList<int> qualities = new List<int> { 0, 0, 0, 5, 4, 1, 8 };
+            IList<int> sellIns = new List<int> { 0, -2, 3, 40, 5, 8, -6 };
+            IList<int> qualities = new List<int> { 0, 0, 0, 5, 24, 1, 8 };
             IList<Item> items = new List<Item>();
             string currentName = nameItem1;
             for (var i = 0; i < qualities.Count; i++)
@@ -465,8 +464,8 @@ namespace gildedrose
         [InlineData("Aged Brie", "Backstage passes to a TAFKAL80ETC concert", "Backstage passes")]
         public void Should_Have_Backstage_Quality_Drop_To_0_After_Concert(string nameItem1, string nameItem2, string nameItem3)
         {
-            IList<int> sellIns = new List<int> { 0, -2, 3, 4, 5, -7, -6 };
-            IList<int> qualities = new List<int> { 0, 0, 0, 5, 4, 1, 8 };
+            IList<int> sellIns = new List<int> { 0, -2, 3, 40, 5, 8, -6 };
+            IList<int> qualities = new List<int> { 0, 0, 0, 5, 34, 1, 28 };
             IList<Item> items = new List<Item>();
             string currentName = nameItem1;
             for (var i = 0; i < qualities.Count; i++)
@@ -495,6 +494,50 @@ namespace gildedrose
                 if (items[i].Name.Contains("Backstage passes") && 
                     items[i].SellIn <= 0)
                     Assert.Equal(0, items[i].Quality);
+            }
+        }
+
+        [Theory]
+        [InlineData("foo", "bar", "Conjured")]
+        [InlineData("Conjured", "rose", "kata")]
+        [InlineData("Aged Brie", "Conjured", "Backstage passes")]
+        public void Should_Have_Conjured_Item_Degrade_Twice_Faster_Than_Normal(string nameItem1, string nameItem2, string nameItem3)
+        {
+            IList<int> sellIns = new List<int> { 0, -2, 3, 40, 5, 8, -6 };
+            IList<int> qualities = new List<int> { 0, 0, 0, 5, 34, 1, 28 };
+            IList<Item> items = new List<Item>();
+            string currentName = nameItem1;
+            for (var i = 0; i < qualities.Count; i++)
+            {
+                if (currentName == nameItem1)
+                {
+                    if (i != 0)
+                        currentName = nameItem2;
+                }
+                else if (currentName == nameItem2)
+                {
+                    currentName = nameItem3;
+                }
+                else
+                {
+                    currentName = nameItem1;
+                }
+                items.Add(new Item { Name = currentName, SellIn = sellIns[i], Quality = qualities[i] });
+            }
+
+            GildedRose app = new GildedRose(items);
+            app.UpdateQuality();
+
+            for (var i = 0; i < items.Count; i++)
+            {
+                if (items[i].Name.Contains("Conjured") &&
+                    items[i].Quality > 2 &&
+                    items[i].SellIn > 0)
+                    Assert.Equal(qualities[i]-2, items[i].Quality);
+                else if (items[i].Name.Contains("Conjured") &&
+                    items[i].Quality > 2 &&
+                    items[i].SellIn <= 0)
+                    Assert.Equal(qualities[i]-4, items[i].Quality);
             }
         }
     }

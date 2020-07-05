@@ -1,4 +1,4 @@
-﻿namespace gildedrose
+﻿namespace Gildedrose
 {
     public class Item
     {
